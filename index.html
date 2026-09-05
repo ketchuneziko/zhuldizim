@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Т ♥ М — Жұлдыздардан тоқылған махаббат</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%A4%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --pink:#ff6b9d;
+    --gold:#ffd97a;
+    --violet:#cbb6ff;
+    --bg0:#0b0721;
+    --bg1:#1a1040;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    min-height:100vh;
+    font-family:'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+    color:#f5ecff;
+    background:
+      radial-gradient(1200px 700px at 18% -10%, #211052 0%, transparent 62%),
+      radial-gradient(1000px 800px at 92% 18%, #2a123f 0%, transparent 58%),
+      linear-gradient(180deg, #050313 0%, #0a0623 55%, #10072d 100%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+  #bg{ position:fixed; inset:0; z-index:0; display:block; pointer-events:none; }
+  .page{ position:relative; z-index:1; }
+
+  /* ---------- header ---------- */
+  header{ text-align:center; padding:38px 16px 6px; }
+  header .spark{ letter-spacing:.6em; color:var(--gold); font-size:.85rem; opacity:.85; }
+  h1{
+    font-size:clamp(2.4rem, 6vw, 3.6rem);
+    font-weight:800;
+    letter-spacing:.06em;
+    background:linear-gradient(90deg, var(--pink) 10%, #ffb3c9 45%, var(--gold) 90%);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+    text-shadow:0 0 42px rgba(255,107,157,.25);
+    margin:6px 0 4px;
+  }
+  .subtitle{
+    color:var(--violet); letter-spacing:.42em; text-transform:uppercase;
+    font-size:.72rem; margin-bottom:6px;
+  }
+  .subtitle b{ color:var(--gold); font-weight:600; }
+
+  /* ---------- layout ---------- */
+  .stage{
+    display:grid;
+    grid-template-columns:minmax(230px, 295px) minmax(0, 1fr) minmax(230px, 295px);
+    gap:20px;
+    align-items:start;
+    max-width:1560px;
+    margin:0 auto;
+    padding:14px 18px 150px;
+  }
+
+  /* ---------- photo walls ---------- */
+  .wall{
+    position:sticky; top:14px;
+    max-height:calc(100vh - 170px);
+    overflow-y:auto; overflow-x:hidden;
+    display:flex; flex-direction:column; gap:26px;
+    padding:34px 8px 40px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(255,107,157,.5) transparent;
+  }
+  .wall::-webkit-scrollbar{ width:6px; }
+  .wall::-webkit-scrollbar-thumb{ background:rgba(255,107,157,.45); border-radius:3px; }
+  .wall-title{
+    text-align:center; color:var(--violet); font-size:.68rem;
+    letter-spacing:.4em; text-transform:uppercase; opacity:.75;
+  }
+  .photo{
+    align-self:center;
+    width:86%;
+    border-radius:16px;
+    padding:7px;
+    background:linear-gradient(145deg, #ffe3a3, #ffb35e 38%, #ff6b9d 85%);
+    box-shadow:0 12px 32px rgba(255,107,157,.22), 0 3px 8px rgba(0,0,0,.45),
+               inset 0 0 0 1px rgba(255,255,255,.25);
+    transform:rotate(var(--tilt, 0deg));
+    transition:transform .35s ease, box-shadow .35s ease;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .photo img{
+    display:block; width:100%; height:auto;
+    border-radius:10px; background:#120b26;
+  }
+  .photo:hover{
+    transform:rotate(0deg) scale(1.05);
+    box-shadow:0 18px 50px rgba(255,107,157,.5), 0 4px 10px rgba(0,0,0,.5),
+               inset 0 0 0 1px rgba(255,255,255,.35);
+    z-index:5; position:relative;
+  }
+
+  /* ---------- center ---------- */
+  .center{ min-width:0; width:100%; margin-inline:auto; }
+  #scene{
+    display:block; width:100%; height:auto;
+    filter:drop-shadow(0 0 30px rgba(120,80,255,.12));
+  }
+  .scene-cap{
+    text-align:center; color:var(--violet); font-size:.72rem;
+    letter-spacing:.35em; text-transform:uppercase; opacity:.7; margin-top:-6px;
+  }
+
+  .poem{
+    width:100%; max-width:920px; margin:34px auto 0;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:22px;
+    padding:30px 34px 26px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 24px 70px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.08);
+  }
+  .poem h2{
+    font-family:Georgia, 'Times New Roman', serif;
+    color:var(--gold); font-size:1.15rem; font-weight:600;
+    letter-spacing:.3em; text-transform:uppercase;
+    text-align:center; margin-bottom:6px;
+  }
+  .poem .orn{ text-align:center; color:var(--pink); letter-spacing:.5em; margin-bottom:18px; font-size:.8rem; }
+  .stanza{
+    font-family:Georgia, 'Times New Roman', serif;
+    color:#f7eeff; line-height:1.85; font-size:1.03rem;
+    margin-bottom:20px; text-align:center;
+    white-space:pre-line;
+  }
+  .stanza:last-child{ margin-bottom:0; }
+  .stanza em{ color:#ffc2d6; font-style:normal; }
+
+  .badge{
+    margin:30px auto 0; text-align:center;
+    font-size:.85rem; color:var(--violet); letter-spacing:.25em;
+  }
+  .badge b{ color:var(--gold); }
+
+  /* ---------- lightbox ---------- */
+  #lightbox{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(7,3,22,.93);
+    backdrop-filter:blur(6px);
+    display:none; align-items:center; justify-content:center;
+    flex-direction:column; gap:14px; padding:20px;
+  }
+  #lightbox.open{ display:flex; }
+  #lightbox img{
+    max-width:92vw; max-height:78vh; border-radius:16px;
+    box-shadow:0 0 90px rgba(255,107,157,.35), 0 10px 40px rgba(0,0,0,.6);
+    border:3px solid rgba(255,217,122,.5);
+  }
+  #lbCount{ color:var(--violet); font-size:.8rem; letter-spacing:.3em; }
+  .lb-btn{
+    position:absolute; background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.25); color:#fff;
+    width:48px; height:48px; border-radius:50%;
+    font-size:1.4rem; cursor:pointer; transition:background .25s, transform .25s;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .lb-btn:hover{ background:rgba(255,107,157,.35); transform:scale(1.08); }
+  #lbClose{ top:18px; right:22px; }
+  #lbPrev{ left:18px; top:50%; transform:translateY(-50%); }
+  #lbNext{ right:18px; top:50%; transform:translateY(-50%); }
+  #lbPrev:hover{ transform:translateY(-50%) scale(1.08); }
+  #lbNext:hover{ transform:translateY(-50%) scale(1.08); }
+
+  /* ---------- music player ---------- */
+  #player{
+    position:fixed; left:50%; bottom:16px; transform:translateX(-50%);
+    width:min(700px, 94vw); z-index:60;
+    background:rgba(19,11,45,.82);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:999px;
+    backdrop-filter:blur(12px);
+    box-shadow:0 18px 50px rgba(0,0,0,.5), 0 0 40px rgba(255,107,157,.12);
+    display:flex; align-items:center; gap:12px;
+    padding:11px 18px;
+  }
+  #playBtn{
+    flex-shrink:0;
+    width:44px; height:44px; border-radius:50%;
+    border:none; cursor:pointer;
+    background:linear-gradient(145deg, #ff8fb5, #ff4f8b);
+    color:#fff; font-size:1.05rem;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 18px rgba(255,79,139,.5);
+    transition:transform .2s;
+  }
+  #playBtn:hover{ transform:scale(1.08); }
+  .pwrap{ flex:1; position:relative; height:22px; display:flex; align-items:center; min-width:60px; }
+  .ptrack{
+    position:absolute; left:0; right:0; height:7px; border-radius:4px;
+    background:rgba(255,255,255,.14); overflow:hidden;
+  }
+  #pfill{
+    position:absolute; left:0; top:0; bottom:0; width:0%;
+    background:linear-gradient(90deg, var(--pink), var(--gold));
+    border-radius:4px;
+  }
+  #pseek{
+    position:absolute; inset:0; width:100%; opacity:0; cursor:pointer; margin:0;
+  }
+  #ptime{ font-size:.72rem; color:var(--violet); flex-shrink:0; min-width:74px; text-align:center; font-variant-numeric:tabular-nums; }
+  #tname{
+    flex-shrink:0; max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    font-size:.75rem; color:#ffd7e4;
+  }
+  #vol{
+    -webkit-appearance:none; appearance:none;
+    width:86px; height:6px; border-radius:3px;
+    background:rgba(255,255,255,.18); outline:none; cursor:pointer; flex-shrink:0;
+  }
+  #vol::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--gold); box-shadow:0 0 10px rgba(255,217,122,.7); cursor:pointer;
+  }
+  #vol::-moz-range-thumb{
+    width:14px; height:14px; border-radius:50%; border:none;
+    background:var(--gold); box-shadow:0 0 10px rgba(255,217,122,.7); cursor:pointer;
+  }
+  .fileBtn{
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    width:44px; height:44px; border-radius:50%;
+    border:1px dashed rgba(255,217,122,.65);
+    color:var(--gold); font-size:1.15rem; cursor:pointer;
+    background:rgba(255,217,122,.07);
+    transition:background .25s, transform .2s;
+    position:relative;
+  }
+  .fileBtn:hover{ background:rgba(255,217,122,.2); transform:scale(1.08); }
+  .fileBtn input{ position:absolute; inset:0; opacity:0; cursor:pointer; }
+  #musicHint{
+    position:fixed; left:50%; bottom:84px; transform:translateX(-50%);
+    z-index:60; max-width:92vw; width:max-content; max-width:min(560px, 92vw);
+    background:rgba(30,16,64,.92); border:1px solid rgba(255,217,122,.5);
+    color:#ffe9c4; font-size:.8rem; line-height:1.5;
+    padding:10px 18px; border-radius:14px; text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+    backdrop-filter:blur(8px);
+  }
+  #musicHint b{ color:var(--gold); }
+  [hidden]{ display:none !important; }
+
+  footer{
+    position:relative; z-index:1;
+    text-align:center; padding:0 20px 120px;
+    color:rgba(203,182,255,.55); font-size:.75rem; letter-spacing:.3em;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1080px){
+    .stage{ grid-template-columns:minmax(200px, 250px) minmax(0,1fr) minmax(200px, 250px); }
+  }
+  @media (max-width: 860px){
+    .stage{ grid-template-columns:1fr; padding-bottom:170px; }
+    .wall{
+      position:static; max-height:none; overflow:visible;
+      display:grid; grid-template-columns:1fr 1fr; gap:16px;
+      padding:20px 4px;
+    }
+    .wall-title{ grid-column:1 / -1; }
+    .photo{ width:100%; }
+    .center{ order:-1; }
+    #tname{ display:none; }
+    #vol{ width:60px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="page">
+  <header>
+    <div class="spark">✦ &nbsp;★&nbsp; ✦ &nbsp;★&nbsp; ✦</div>
+    <h1>Т ♥ М</h1>
+    <div class="subtitle">Жұлдыздардан тоқылған <b>махаббат</b></div>
+  </header>
+
+  <main class="stage">
+    <aside class="wall" id="wallL"><div class="wall-title">✦ бірге ✦</div></aside>
+
+    <section class="center">
+      <canvas id="scene" width="920" height="560" aria-label="Звёздная рыбка и скорпион целуются"></canvas>
+      <div class="scene-cap">рыбка ★ и ★ скорпион — из одних звёзд</div>
+
+      <article class="poem">
+        <h2>Стихотворение</h2>
+        <div class="orn">♡ ✧ ♡ ✧ ♡</div>
+        <div class="stanza">Мен өзіме бір көргеннен ғашықпын,
+Сезімімді тежей алмай асықтым.
+Ессіз сүйіп дәл өзіңдей аруды,
+Махаббатқа қадамымды басыппын.</div>
+        <div class="stanza">Кербез едің ғажап бір айдың нұры,
+Тым ерекше сұлудың сенсің бірі.
+Өзің барда бойыма шаттық орнап,
+Сейіледі жанымның қайғы мұңы.</div>
+        <div class="stanza">Талай мәрте көздеріңе сұқтандым,
+Сезімімді айтпайын деп оқталдым.
+Сезіміме сенімсіздеу болдым ба?
+Мен әйтпейір бір мезетте тоқталдым.</div>
+        <div class="stanza">Кездескенім өзіңмен бекер емес,
+Мені ойға салады сан мың елес.
+Менің барым өзіңсің сенші маған,
+Бөтен ойға жол беріп кетем демеш.</div>
+      </article>
+
+      <div class="badge">Т <b>+</b> М &nbsp;∞</div>
+    </section>
+
+    <aside class="wall" id="wallR"><div class="wall-title">✦ бірге ✦</div></aside>
+  </main>
+
+  <footer>сделано с любовью ★ 2026</footer>
+</div>
+
+<!-- lightbox -->
+<div id="lightbox">
+  <button class="lb-btn" id="lbClose" aria-label="Закрыть">✕</button>
+  <button class="lb-btn" id="lbPrev" aria-label="Назад">‹</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-btn" id="lbNext" aria-label="Вперёд">›</button>
+  <div id="lbCount">1 / 23</div>
+</div>
+
+<!-- music player -->
+<div id="musicHint" hidden>
+  🎵 Чтобы включить музыку: нажми кнопку <b>🎵</b> в плеере и выбери свой файл,
+  либо положи файл <b>music.mp3</b> в папку сайта (рядом с index.html) — он подхватится сам.
+</div>
+<div id="player">
+  <button id="playBtn" aria-label="Играть">▶</button>
+  <div class="pwrap">
+    <div class="ptrack"></div>
+    <div id="pfill"></div>
+    <input type="range" id="pseek" min="0" max="1000" value="0" step="1">
+  </div>
+  <span id="ptime">0:00 / 0:00</span>
+  <span id="tname">music.mp3</span>
+  <input type="range" id="vol" min="0" max="1" step="0.01" value="0.8" title="Громкость">
+  <label class="fileBtn" title="Выбрать свой файл музыки">🎵<input type="file" id="file" accept="audio/*"></label>
+</div>
+
+<audio id="audio" src="music.mp3" loop preload="auto" autoplay></audio>
+
+<script>
+"use strict";
+/* ============================================================
+   1) ФОТОГРАФИИ — стены слева и справа + лайтбокс
+============================================================ */
+const PHOTOS = Array.from({length:23}, (_,i) =>
+  `photos/p${String(i+1).padStart(2,'0')}.jpg`);
+
+const wallL = document.getElementById('wallL');
+const wallR = document.getElementById('wallR');
+
+PHOTOS.forEach((src, i) => {
+  const d = document.createElement('div');
+  d.className = 'photo';
+  const tilt = (((i * 53) % 7) - 3) * 0.9;           // лёгкий случайный наклон
+  d.style.setProperty('--tilt', tilt.toFixed(1) + 'deg');
+  const im = new Image();
+  im.src = src;
+  im.loading = 'lazy';
+  im.alt = 'наше фото ' + (i + 1);
+  d.appendChild(im);
+  d.addEventListener('click', () => openLightbox(i));
+  (i % 2 === 0 ? wallL : wallR).appendChild(d);
+});
+
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbCount = document.getElementById('lbCount');
+let lbIndex = 0;
+
+function openLightbox(i){
+  lbIndex = i;
+  lbImg.src = PHOTOS[i];
+  lbCount.textContent = (i + 1) + ' / ' + PHOTOS.length;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+function lbStep(d){
+  lbIndex = (lbIndex + d + PHOTOS.length) % PHOTOS.length;
+  lbImg.src = PHOTOS[lbIndex];
+  lbCount.textContent = (lbIndex + 1) + ' / ' + PHOTOS.length;
+}
+document.getElementById('lbClose').onclick = closeLightbox;
+document.getElementById('lbPrev').onclick  = e => { e.stopPropagation(); lbStep(-1); };
+document.getElementById('lbNext').onclick  = e => { e.stopPropagation(); lbStep(1); };
+lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lbStep(-1);
+  if (e.key === 'ArrowRight') lbStep(1);
+});
+
+/* ============================================================
+   2) МУЗЫКА — плеер. Твой трек: music.mp3 рядом с index.html
+============================================================ */
+const audio   = document.getElementById('audio');
+const playBtn = document.getElementById('playBtn');
+const pfill   = document.getElementById('pfill');
+const pseek   = document.getElementById('pseek');
+const ptime   = document.getElementById('ptime');
+const tname   = document.getElementById('tname');
+const vol     = document.getElementById('vol');
+const fileIn  = document.getElementById('file');
+const hint    = document.getElementById('musicHint');
+let hasTrack  = false;   // true, если источник музыкальный и найден
+let autoStarted = false;  // музыка уже запустилась сама или после первого жеста
+
+audio.volume = parseFloat(vol.value);
+vol.addEventListener('input', () => { audio.volume = parseFloat(vol.value); });
+
+function trackMissing(){
+  return audio.error !== null || audio.networkState === 3 || !hasTrack;
+}
+function fmt(s){
+  if (!isFinite(s)) s = 0;
+  s = Math.round(s);
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2,'0');
+}
+
+// Пытаемся включить трек сразу при открытии сайта. Если браузер блокирует
+// autoplay со звуком, первый клик/касание по странице запустит его.
+function startMusic(force = false){
+  if (trackMissing() || (autoStarted && !force)) return;
+  const promise = audio.play();
+  if (promise && promise.then){
+    promise.then(() => {
+      autoStarted = true;
+      hint.hidden = true;
+    }).catch(() => {
+      hint.innerHTML = '🎵 Музыка готова, но браузер заблокировал автозапуск. Нажми в любом месте страницы или кнопку <b>▶</b>.';
+      hint.hidden = false;
+    });
+  } else {
+    autoStarted = true;
+  }
+}
+
+audio.addEventListener('loadedmetadata', () => {
+  hasTrack = true;
+  startMusic();
+});
+audio.addEventListener('canplay', startMusic);
+audio.addEventListener('error', () => {
+  if (!fileIn.files.length) { hasTrack = false; }
+});
+
+function unlockMusic(e){
+  // На кнопке плеера запуском управляет её собственный обработчик,
+  // чтобы один клик не запустил и тут же не поставил музыку на паузу.
+  if (e && e.target && (e.target === playBtn || (e.target.closest && e.target.closest('.fileBtn')))) return;
+  if (!autoStarted && hasTrack) startMusic();
+}
+document.addEventListener('pointerdown', unlockMusic, {passive:true});
+document.addEventListener('keydown', unlockMusic);
+
+playBtn.addEventListener('click', () => {
+  if (trackMissing()){
+    hint.hidden = false;
+    fileIn.click();                      // сразу предложим выбрать файл
+    return;
+  }
+  if (audio.paused) startMusic(true); else audio.pause();
+});
+audio.addEventListener('play',  () => { playBtn.textContent = '❚❚'; });
+audio.addEventListener('pause', () => { playBtn.textContent = '▶'; });
+
+audio.addEventListener('timeupdate', () => {
+  if (audio.duration){
+    pfill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    pseek.value = audio.currentTime / audio.duration * 1000;
+    ptime.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+  }
+});
+pseek.addEventListener('input', () => {
+  if (audio.duration) audio.currentTime = pseek.value / 1000 * audio.duration;
+});
+
+fileIn.addEventListener('change', () => {
+  const f = fileIn.files[0];
+  if (!f) return;
+  audio.src = URL.createObjectURL(f);
+  tname.textContent = f.name;
+  hint.hidden = true;
+  hasTrack = true;
+  autoStarted = false;
+  startMusic();
+});
+
+/* ============================================================
+   3) ФОН: звёздное небо, луна, метеоры
+============================================================ */
+const bg = document.getElementById('bg');
+const bctx = bg.getContext('2d');
+let stars = [], meteors = [], nebula = null;
+let nextMeteor = 2;
+
+function star4(ctx, x, y, r){
+  ctx.beginPath();
+  ctx.moveTo(x, y - r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.quadraticCurveTo(x, y, x, y + r);
+  ctx.quadraticCurveTo(x, y, x - r, y);
+  ctx.quadraticCurveTo(x, y, x, y - r);
+  ctx.closePath();
+}
+
+function sizeBG(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  bg.width  = innerWidth  * dpr;
+  bg.height = innerHeight * dpr;
+  bg.style.width  = innerWidth + 'px';
+  bg.style.height = innerHeight + 'px';
+  bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // звёзды
+  // Больше мелких звёзд — весь экран выглядит как глубокий космос.
+  const n = Math.round(innerWidth * innerHeight / 3600);
+  stars = Array.from({length:n}, () => ({
+    x: Math.random() * innerWidth,
+    y: Math.random() * innerHeight,
+    r: 0.28 + Math.random() * 1.2,
+    tw: 0.5 + Math.random() * 1.8,
+    ph: Math.random() * 7,
+    a: 0.35 + Math.random() * 0.65,
+    big: Math.random() < 0.045,
+    col: Math.random() < 0.75 ? '#ffffff' : (Math.random() < 0.5 ? '#ffd97a' : '#cbb6ff')
+  }));
+
+  // туманности (предварительно — на отдельный холст)
+  nebula = document.createElement('canvas');
+  nebula.width = innerWidth; nebula.height = innerHeight;
+  const nc = nebula.getContext('2d');
+  const blobs = [
+    [0.22, 0.28, 0.50, 'rgba(124, 77, 255, 0.16)'],
+    [0.78, 0.22, 0.42, 'rgba(255, 107, 157, 0.10)'],
+    [0.55, 0.75, 0.55, 'rgba(64, 120, 255, 0.12)'],
+    [0.90, 0.80, 0.35, 'rgba(190, 90, 255, 0.10)']
+  ];
+  for (const [bx, by, br, col] of blobs){
+    const g = nc.createRadialGradient(bx*innerWidth, by*innerHeight, 0,
+                                      bx*innerWidth, by*innerHeight, br*Math.max(innerWidth, innerHeight));
+    g.addColorStop(0, col);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    nc.fillStyle = g;
+    nc.fillRect(0, 0, innerWidth, innerHeight);
+  }
+}
+
+function renderBG(t){
+  const w = innerWidth, h = innerHeight;
+  bctx.clearRect(0, 0, w, h);
+  if (nebula) bctx.drawImage(nebula, 0, 0, w, h);
+
+  // звёзды
+  for (const s of stars){
+    const a = s.a * (0.5 + 0.5 * Math.sin(t * s.tw + s.ph));
+    bctx.globalAlpha = a;
+    bctx.fillStyle = s.col;
+    if (s.big){
+      bctx.shadowColor = s.col; bctx.shadowBlur = 12;
+      star4(bctx, s.x, s.y, s.r * 3.2);
+      bctx.fill();
+      bctx.shadowBlur = 0;
+    } else {
+      bctx.beginPath();
+      bctx.arc(s.x, s.y, s.r, 0, 7);
+      bctx.fill();
+    }
+  }
+
+  // луна (серп)
+  const mx = w * 0.86, my = h * 0.17, mr = Math.min(40, w * 0.045);
+  const mg = bctx.createRadialGradient(mx, my, mr * 0.4, mx, my, mr * 3.2);
+  mg.addColorStop(0, 'rgba(255,240,190,0.30)');
+  mg.addColorStop(1, 'rgba(255,240,190,0)');
+  bctx.globalAlpha = 1;
+  bctx.fillStyle = mg;
+  bctx.beginPath(); bctx.arc(mx, my, mr * 3.2, 0, 7); bctx.fill();
+  bctx.fillStyle = '#fff3c4';
+  bctx.beginPath(); bctx.arc(mx, my, mr, 0, 7); bctx.fill();
+  bctx.fillStyle = 'rgba(14, 9, 38, 0.96)';
+  bctx.beginPath(); bctx.arc(mx - mr * 0.42, my - mr * 0.18, mr * 0.92, 0, 7); bctx.fill();
+
+  // метеоры
+  if (t > nextMeteor){
+    nextMeteor = t + 2.5 + Math.random() * 4;
+    const fromLeft = Math.random() < 0.5;
+    meteors.push({
+      x: fromLeft ? -40 : Math.random() * w * 0.7 + w * 0.3,
+      y: Math.random() * h * 0.35,
+      vx: (fromLeft ? 1 : 1) * (320 + Math.random() * 260),
+      vy: (fromLeft ? 1 : 1) * (120 + Math.random() * 90) * (Math.random() < 0.5 ? 1 : 1),
+      life: 0, max: 1.1 + Math.random() * 0.5
+    });
+  }
+  meteors = meteors.filter(m => m.life < m.max);
+  for (const m of meteors){
+    m.x += m.vx * 0.016; m.y += m.vy * 0.016; m.life += 0.016;
+    const k = 1 - m.life / m.max;
+    const grad = bctx.createLinearGradient(m.x, m.y, m.x - m.vx * 0.28, m.y - m.vy * 0.28);
+    grad.addColorStop(0, 'rgba(255,255,255,' + (0.9 * k) + ')');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    bctx.strokeStyle = grad;
+    bctx.lineWidth = 2;
+    bctx.globalAlpha = 1;
+    bctx.beginPath();
+    bctx.moveTo(m.x, m.y);
+    bctx.lineTo(m.x - m.vx * 0.28, m.y - m.vy * 0.28);
+    bctx.stroke();
+  }
+  bctx.globalAlpha = 1;
+}
+
+/* ============================================================
+   4) СЦЕНА: пиксельная рыбка ★ и скорпион ★ целуются
+============================================================ */
+const scene = document.getElementById('scene');
+const sctx  = scene.getContext('2d');
+const SW = scene.width, SH = scene.height;
+
+// спрайты (16 пикселей шириной), '.' — пусто
+const FISH = [
+  ".........FFF....",
+  "........FFFFF...",
+  "..TTTBBBBBBB....",
+  ".TTTBBBBBBBBBB..",
+  "TTTTBBBBBBBEBBBM",
+  "TTTTBBBBBBBEBBBM",
+  ".TTTBBBBBBPBBBB.",
+  "..TTTBBBBBBB....",
+  "........FFFFF...",
+  ".........FFF....",
+];
+const SCORP = [
+  ".........TTT....",
+  ".........S...T..",
+  ".........S....T.",
+  ".............T..",
+  "..PP.BBBBBBBBT..",
+  "..PPBBBBBBBBBB..",
+  "..PPBBBBBBBBBB..",
+  "...M.BBBPBBBBBB.",
+  ".....BBBBBBBB...",
+  ".....LBBBBBBL...",
+  "......LBBBB.L...",
+  "................",
+];
+const SCORP_EYE = {x:6, y:5};   // глаз (в координатах до зеркала)
+
+const FCOLORS = { B:'#8edbff', T:'#46b7ef', F:'#63c9ff', E:'#081425', M:'#ff73a4', P:'#ffd1df' };
+const SCOLORS = { B:'#ff695d', T:'#dc3d39', P:'#ffd0b8', E:'#2b1a2e', M:'#ffe1ec', L:'#f39a73', S:'#ffe36b' };
+
+function parse(rows, colors, mirror, eye){
+  const cells = [];
+  const h = rows.length, w = rows[0].length;
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++){
+      const ch = rows[y][x];
+      if (ch === '.') continue;
+      const dx = mirror ? (w - 1 - x) : x;
+      let col = colors[ch];
+      if (eye && ch === 'B' && eye.x === x && eye.y === y) col = colors.E;
+      cells.push({ x: dx, y, c: col });
+    }
+  return { cells, w, h };
+}
+// оба зеркалим: рыбка смотрит влево, скорпион — вправо
+const fishSpr = parse(FISH,  FCOLORS, true, null);
+const scorpSpr= parse(SCORP, SCOLORS, true, SCORP_EYE);
+
+const HEART = [
+  ".XX...XX.",
+  "XXXXXXXXX",
+  "XXXXXXXXX",
+  "XXXXXXXXX",
+  ".XXXXXXX.",
+  "..XXXXX..",
+  "...XXX...",
+  "....X...."
+];
+
+function drawSprite(ctx, spr, ox, oy, cell, t){
+  // В каждом пикселе теперь маленький кластер из четырёх звёзд:
+  // силуэт стал плотнее, а сами звёзды — заметно меньше и не сливаются.
+  const slots = [[-0.23,-0.23], [0.23,-0.23], [-0.23,0.23], [0.23,0.23]];
+  for (const c of spr.cells){
+    const ph = c.x * 0.9 + c.y * 1.7;
+    const a  = 0.72 + 0.28 * Math.sin(t * 2.1 + ph * 2.3);
+    const dark = c.c === '#081425' || c.c === '#2b1a2e';
+    for (let i = 0; i < slots.length; i++){
+      const [dx, dy] = slots[i];
+      const px = ox + (c.x + 0.5 + dx) * cell;
+      const py = oy + (c.y + 0.5 + dy) * cell;
+      const r = cell * (dark ? 0.12 : 0.17);
+      ctx.globalAlpha = a * (dark ? 0.72 : 1);
+      ctx.shadowColor = c.c;
+      ctx.shadowBlur = cell * (dark ? 0.34 : 0.5);
+      ctx.fillStyle = c.c;
+      star4(ctx, px, py, r);
+      ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.shadowBlur = 0;
+}
+
+function drawPixelHeart(ctx, cx, cy, s, alpha, color){
+  if (alpha <= 0.01) return;
+  const w = 9 * s, h = 8 * s;
+  for (let y = 0; y < 8; y++)
+    for (let x = 0; x < 9; x++){
+      if (HEART[y][x] !== 'X') continue;
+      const px = cx - w / 2 + (x + 0.5) * s;
+      const py = cy - h / 2 + (y + 0.5) * s;
+      ctx.globalAlpha = alpha * (0.82 + 0.18 * Math.sin(perfT * 5 + x * 1.3 + y));
+      ctx.shadowColor = color;
+      ctx.shadowBlur = s * 1.8;
+      ctx.fillStyle = color;
+      star4(ctx, px, py, s * 0.85);
+      ctx.fill();
+    }
+  ctx.globalAlpha = 1;
+  ctx.shadowBlur = 0;
+}
+
+// частицы: ленточка сердечек + искры поцелуя
+let hearts = [], sparks = [];
+let lastHeart = 0;
+
+function renderScene(t){
+  sctx.clearRect(0, 0, SW, SH);
+  const C = { x: SW / 2, y: SH * 0.44 };
+  const cell = Math.min(SW / 52, SH / 24);
+
+  // фаза поцелуя: цикл 7 секунд
+  const T = 7;
+  const tt = t % T;
+  let a = 0;                                  // 0..1 — сближение
+  if (tt > 1.6 && tt < 2.7)      a = (tt - 1.6) / 1.1;
+  else if (tt >= 2.7 && tt < 4.3) a = 1 - (tt - 2.7) / 1.6;
+  a = a * a * (3 - 2 * a);                     // smoothstep
+  let heart = 0;                              // пульс большого сердца
+  if (tt >= 2.7 && tt <= 4.2){
+    const p = (tt - 2.7) / 1.5;
+    heart = Math.sin(Math.min(1, Math.max(0, p)) * Math.PI);
+  }
+  const KH = { x: C.x, y: C.y + 0.5 * cell }; // точка поцелуя
+
+  const dist = (2.7 - 1.6 * a) * cell;        // дистанция между ртами
+  const sx = C.x - dist / 2 - 12.5 * cell;
+  const sy = C.y - 6.5 * cell + Math.sin(t * 1.6) * 5;
+  const fx = C.x + dist / 2 - 0.5 * cell;
+  const fy = C.y - 4.5 * cell + Math.sin(t * 1.6 + 1.4) * 5;
+  const tilt = 0.09 * a;
+
+  // мягкое свечение позади героев
+  const g1 = sctx.createRadialGradient(sx + 8 * cell, sy + 5.5 * cell, cell, sx + 8 * cell, sy + 5.5 * cell, cell * 10);
+  g1.addColorStop(0, 'rgba(255,111,97,0.20)');
+  g1.addColorStop(1, 'rgba(255,111,97,0)');
+  sctx.fillStyle = g1;
+  sctx.fillRect(sx - cell * 10, sy - cell * 10, cell * 26, cell * 26);
+  const g2 = sctx.createRadialGradient(fx + 8 * cell, fy + 4.5 * cell, cell, fx + 8 * cell, fy + 4.5 * cell, cell * 10);
+  g2.addColorStop(0, 'rgba(95,180,240,0.20)');
+  g2.addColorStop(1, 'rgba(95,180,240,0)');
+  sctx.fillStyle = g2;
+  sctx.fillRect(fx - cell * 10, fy - cell * 10, cell * 26, cell * 26);
+
+  // скорпион (левый, лицом вправо) — лёгкий наклон в момент поцелуя
+  sctx.save();
+  sctx.translate(sx + 12.5 * cell, sy + 7 * cell);
+  sctx.rotate(-tilt);
+  sctx.translate(-(sx + 12.5 * cell), -(sy + 7 * cell));
+  drawSprite(sctx, scorpSpr, sx, sy, cell, t);
+  sctx.restore();
+
+  // рыбка (правая, лицом влево)
+  sctx.save();
+  sctx.translate(fx + 0.5 * cell, fy + 4.5 * cell);
+  sctx.rotate(tilt);
+  sctx.translate(-(fx + 0.5 * cell), -(fy + 4.5 * cell));
+  drawSprite(sctx, fishSpr, fx, fy, cell, t + 2);
+  sctx.restore();
+
+  // большие сердечки в момент поцелуя
+  drawPixelHeart(sctx, KH.x, KH.y - cell * 0.4, cell * 0.62 * (0.55 + 0.65 * heart), Math.min(1, heart * 1.4), '#ff6b9d');
+
+  // непрерывная ленточка маленьких сердечек
+  if (t - lastHeart > 0.65){
+    lastHeart = t;
+    hearts.push({
+      x: KH.x + (Math.random() - 0.5) * cell * 2.4,
+      y: KH.y + cell * 0.4,
+      vx: (Math.random() - 0.5) * 14,
+      vy: -26 - Math.random() * 22,
+      s: 3.5 + Math.random() * 3,
+      life: 0, max: 2.2 + Math.random() * 1.2,
+      col: Math.random() < 0.7 ? '#ff6b9d' : '#ffd97a'
+    });
+  }
+  hearts = hearts.filter(p => p.life < p.max);
+  for (const p of hearts){
+    p.x += p.vx * 0.016;
+    p.y += p.vy * 0.016;
+    p.vy *= 0.995;
+    p.life += 0.016;
+    const k = 1 - p.life / p.max;
+    drawPixelHeart(sctx, p.x, p.y, p.s * (0.7 + 0.3 * k), k * 0.9, p.col);
+  }
+
+  // искры в момент поцелуя
+  if (Math.abs(tt - 2.85) < 0.02 && sparks.length < 30){
+    for (let i = 0; i < 16; i++){
+      const ang = Math.random() * Math.PI * 2;
+      const sp = 40 + Math.random() * 130;
+      sparks.push({
+        x: KH.x, y: KH.y,
+        vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 30,
+        life: 0, max: 0.7 + Math.random() * 0.6,
+        s: 2.5 + Math.random() * 4,
+        col: Math.random() < 0.5 ? '#ffd97a' : '#ffffff'
+      });
+    }
+  }
+  sparks = sparks.filter(p => p.life < p.max);
+  for (const p of sparks){
+    p.x += p.vx * 0.016; p.y += p.vy * 0.016; p.vy += 60 * 0.016;
+    p.life += 0.016;
+    const k = 1 - p.life / p.max;
+    sctx.globalAlpha = k;
+    sctx.shadowColor = p.col; sctx.shadowBlur = 10;
+    sctx.fillStyle = p.col;
+    star4(sctx, p.x, p.y, p.s * (0.5 + k));
+    sctx.fill();
+  }
+  sctx.globalAlpha = 1;
+  sctx.shadowBlur = 0;
+}
+
+/* ============================================================
+   5) ЗАПУСК
+============================================================ */
+let perfT = 0;
+function loop(){
+  const t = performance.now() / 1000;
+  perfT = t;
+  renderBG(t);
+  renderScene(t);
+  requestAnimationFrame(loop);
+}
+
+sizeBG();
+window.addEventListener('resize', sizeBG);
+loop();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a364d15b99b2e4c3',t:'MTc4ODYwNjk0NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
